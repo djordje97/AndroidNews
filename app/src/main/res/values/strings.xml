@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">AndroidNews</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="read_post">Read Post</string>
+    <string name="create_post">Create Post</string>
+    <string name="settings">Settings</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="upload_image">Upload image</string>
+    <string name="tags">Tags</string>
+    <string name="location">Location</string>
+    <string name="create">Create</string>
+    <string name="post_title">Post Title</string>
+    <string name="some_description">This is some description for this post</string>
+    <string name="picture">Picture</string>
+    <string name="like_5_dislike_2">Like 5 Dislike 2</string>
+</resources>
