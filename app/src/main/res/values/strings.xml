@@ -10,10 +10,13 @@
     <string name="description">Description</string>
     <string name="upload_image">Upload image</string>
     <string name="tags">Tags</string>
+    <string name="post">Post</string>
     <string name="location">Location</string>
     <string name="create">Create</string>
     <string name="post_title">Post Title</string>
     <string name="some_description">This is some description for this post</string>
     <string name="picture">Picture</string>
     <string name="like_5_dislike_2">Like 5 Dislike 2</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>
