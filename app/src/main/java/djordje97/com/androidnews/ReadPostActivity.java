@@ -41,6 +41,7 @@ public class ReadPostActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
         prepareMenu(mNavItems);
@@ -49,7 +50,6 @@ public class ReadPostActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mDrawerList = (ListView) findViewById(R.id.navList);
 
-        // Populate the Navigtion Drawer with options
         mDrawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
         DrawerListAdapter adapter = new DrawerListAdapter(this, mNavItems);
 
@@ -102,7 +102,7 @@ public class ReadPostActivity extends AppCompatActivity {
         }
 
         mDrawerList.setItemChecked(position, true);
-        if(position != 1) // za sve osim za sync
+        if(position != 1)
         {
             setTitle(mNavItems.get(position).getmTitle());
         }

@@ -42,6 +42,7 @@ public class CreatePostActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
         prepareMenu(mNavItems);
@@ -103,7 +104,7 @@ public class CreatePostActivity extends AppCompatActivity {
         }
 
         mDrawerList.setItemChecked(position, true);
-        if(position != 1) // za sve osim za sync
+        if(position != 1)
         {
             setTitle(mNavItems.get(position).getmTitle());
         }
