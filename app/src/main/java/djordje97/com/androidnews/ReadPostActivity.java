@@ -1,6 +1,10 @@
 package djordje97.com.androidnews;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +16,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import djordje97.com.androidnews.adapters.DrawerListAdapter;
+import djordje97.com.androidnews.model.Comment;
 import djordje97.com.androidnews.model.NavItem;
+import djordje97.com.androidnews.model.Post;
+import djordje97.com.androidnews.model.Tag;
+import djordje97.com.androidnews.model.User;
 
 public class ReadPostActivity extends AppCompatActivity {
 
@@ -44,6 +56,39 @@ public class ReadPostActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
+        Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
+        User user = new User(1, "Petar", b, "pera", "123", null, null);
+        Date date = new Date();
+        Post post=new Post(1, "Avengers", "Avengers Infinity war,best movie", b, user, date, null, null, null, 12, 3);
+        List<Post> posts = new ArrayList<Post>();
+        posts.add(post);
+
+        Tag tag = new Tag(1, "#good", posts);
+        List<Tag> tags = new ArrayList<Tag>();
+        tags.add(tag);
+        post.setTags(tags);
+
+
+
+        TextView tv = (TextView)findViewById(R.id.title_text_view);
+        tv.setText(post.getTitle());
+        TextView td = (TextView)findViewById(R.id.description_text_view);
+        td.setText(post.getDescription());
+        ImageView im = (ImageView) findViewById(R.id.picture);
+        im.setImageBitmap(b);
+        TextView tt = (TextView)findViewById(R.id.tags_text_view);
+        tt.setText(post.getTags().get(0).getName());
+        TextView tu = (TextView)findViewById(R.id.author_text_view);
+        tu.setText(post.getAuthor().getUsername());
+        TextView tdate = (TextView)findViewById(R.id.date_text_view);
+        tdate.setText(post.getDate().toString());
+        TextView tlike = (TextView)findViewById(R.id.like_number);
+        tlike.setText(String.valueOf(post.getLike()));
+        TextView tdislike = (TextView)findViewById(R.id.dislike_number);
+        tdislike.setText(String.valueOf(post.getDislike()));
+
+
+
         prepareMenu(mNavItems);
 
         mTitle = mDrawerTitle = getTitle();
@@ -65,15 +110,15 @@ public class ReadPostActivity extends AppCompatActivity {
                 R.string.drawer_close
         ) {
             public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
+              //  getActionBar().setTitle(mTitle);
                 getSupportActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
+            //    getActionBar().setTitle(mDrawerTitle);
                 getSupportActionBar().setTitle("Android News");
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                invalidateOptionsMenu();
             }
         };
     }
@@ -131,5 +176,11 @@ public class ReadPostActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }
