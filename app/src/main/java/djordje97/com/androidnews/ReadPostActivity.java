@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,7 +57,7 @@ public class ReadPostActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
+        Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.slika);
         User user = new User(1, "Petar", b, "pera", "123", null, null);
         Date date = new Date();
         Post post=new Post(1, "Avengers", "Avengers Infinity war,best movie", b, user, date, null, null, null, 12, 3);
@@ -173,6 +174,12 @@ public class ReadPostActivity extends AppCompatActivity {
         {
             Intent openSettings=new Intent(ReadPostActivity.this,SettingsActivity.class);
             startActivity(openSettings);
+        }else if(id == R.id.action_add_post ){
+            Toast toast=Toast.makeText(getApplicationContext(),"Add post",Toast.LENGTH_SHORT);
+            toast.show();
+        }else if(id == R.id.action_delete_post ){
+            Toast toast=Toast.makeText(getApplicationContext(),"Delete post",Toast.LENGTH_SHORT);
+            toast.show();
         }
 
         return super.onOptionsItemSelected(item);
