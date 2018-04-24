@@ -1,6 +1,8 @@
 package djordje97.com.androidnews;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,9 +19,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import djordje97.com.androidnews.adapters.DrawerListAdapter;
+import djordje97.com.androidnews.adapters.ListViewAdapter;
 import djordje97.com.androidnews.model.NavItem;
+import djordje97.com.androidnews.model.Post;
+import djordje97.com.androidnews.model.User;
 
 public class PostsActivity extends AppCompatActivity {
 
@@ -78,6 +84,25 @@ public class PostsActivity extends AppCompatActivity {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
+
+        Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.slika);
+        User user = new User(1, "Petar", b, "pera", "123", null, null);
+        Date date = new Date();
+        Post post=new Post(1, "Avengers", "Avengers Infinity war,best movie", b, user, date, null, null, null, 12, 3);
+
+        ArrayList<Post> posts=new ArrayList<>();
+        posts.add(post);
+        ListView listView=findViewById(R.id.list_view);
+
+        ListViewAdapter listViewAdapter=new ListViewAdapter(this,posts);
+        listView.setAdapter(listViewAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent startReadPost=new Intent(PostsActivity.this,ReadPostActivity.class);
+                startActivity(startReadPost);
+            }
+        });
     }
 
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
