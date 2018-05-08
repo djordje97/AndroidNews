@@ -1,8 +1,10 @@
 package djordje97.com.androidnews;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,6 +21,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import djordje97.com.androidnews.adapters.DrawerListAdapter;
@@ -36,7 +40,13 @@ public class PostsActivity extends AppCompatActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
-
+    private SharedPreferences sharedPreferences;
+    private boolean sortPostByDate;
+    private boolean sortPostByPopularity;
+    ArrayList<Post> posts=new ArrayList<>();
+    private ListViewAdapter listViewAdapter;
+    private Post post1;
+    private Post post2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,14 +97,16 @@ public class PostsActivity extends AppCompatActivity {
 
         Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.slika);
         User user = new User(1, "Petar", b, "pera", "123", null, null);
-        Date date = new Date();
-        Post post=new Post(1, "Avengers", "Avengers Infinity war,best movie", b, user, date, null, null, null, 12, 3);
+        Date date = new Date(2018-1900,3-1,23,8,45);
+        Date d2=new Date(2018-1900,2-1,25,9,45);
+        post1=new Post(1, "Avengers", "Avengers Infinity war,best movie", b, user, date, null, null, null, 12, 3);
+        post2=new Post(2,"Super News","Extraaa",b,user,d2,null,null,null,50,7);
 
-        ArrayList<Post> posts=new ArrayList<>();
-        posts.add(post);
+        posts.add(post1);
+        posts.add(post2);
         ListView listView=findViewById(R.id.list_view);
 
-        ListViewAdapter listViewAdapter=new ListViewAdapter(this,posts);
+        listViewAdapter=new ListViewAdapter(this,posts);
         listView.setAdapter(listViewAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -103,6 +115,50 @@ public class PostsActivity extends AppCompatActivity {
                 startActivity(startReadPost);
             }
         });
+
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        consultPreference();
+    }
+
+    private void consultPreference(){
+        sortPostByDate=sharedPreferences.getBoolean(getString(R.string.prefer_sort_post_date_key),false);
+        sortPostByPopularity=sharedPreferences.getBoolean(getString(R.string.sort_post_popularity_key),false);
+
+        if(sortPostByDate == true){
+            sortDate();
+        }
+        if(sortPostByPopularity == true){
+            sortByPopularity();
+        }
+    }
+
+    public void sortDate(){
+        Collections.sort(posts, new Comparator<Post>() {
+            @Override
+            public int compare(Post post, Post t1) {
+                return post1.getDate().compareTo(post.getDate());
+            }
+        });
+
+
+        listViewAdapter.notifyDataSetChanged();
+    }
+
+    public void sortByPopularity(){
+
+        Collections.sort(posts, new Comparator<Post>() {
+            @Override
+            public int compare(Post post, Post t1) {
+                int first;
+                int second ;
+                first = post.getLike() - post.getDislike();
+                second = post1.getLike() - post1.getDislike();
+                return Integer.valueOf(second).compareTo(first);
+            }
+        });
+
+
+        listViewAdapter.notifyDataSetChanged();
     }
 
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
