@@ -81,8 +81,8 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
-        mNavItems.add(new NavItem(getString(R.string.settings), "", R.drawable.ic_launcher_background));
-        mNavItems.add(new NavItem(getString(R.string.post), "", R.drawable.ic_launcher_background));
+        mNavItems.add(new NavItem(getString(R.string.settings), "", R.drawable.ic_settings));
+        mNavItems.add(new NavItem(getString(R.string.post), "", R.drawable.ic_posts));
 
     }
 

@@ -2,22 +2,37 @@ package djordje97.com.androidnews.model;
 
 import android.graphics.Bitmap;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Djole on 17/04/2018.
  */
 
-public class User {
-    private  int id;
+public class User  implements Serializable{
+
+    @SerializedName("id")
+    @Expose
+    private  Integer id;
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("photo")
+    @Expose
     private Bitmap photo;
+    @SerializedName("username")
+    @Expose
     private String username;
+    @SerializedName("password")
+    @Expose
     private String password;
     private List<Post> posts;
     private List<Comment> comments;
 
-    public User(int id, String name, Bitmap photo, String username, String password, List<Post> posts, List<Comment> comments) {
+    public User(Integer id, String name, Bitmap photo, String username, String password, List<Post> posts, List<Comment> comments) {
         this.id = id;
         this.name = name;
         this.photo = photo;
@@ -27,7 +42,7 @@ public class User {
         this.comments = comments;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

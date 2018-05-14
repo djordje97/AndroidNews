@@ -25,19 +25,21 @@ public class ListViewAdapter extends ArrayAdapter <Post>{
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, @Nullable View view, @NonNull ViewGroup viewGroup
+    ) {
         Post post=getItem(position);
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView=inflater.inflate(R.layout.list_view_item,null);
-        ImageView image=(ImageView)convertView.findViewById(R.id.image_post);
-        TextView title=(TextView)convertView.findViewById(R.id.post_title);
-        TextView description=(TextView)convertView.findViewById(R.id.post_description);
+        if(view == null){
+            view = LayoutInflater.from(getContext()).inflate(R.layout.list_view_item,viewGroup,false);
+        }
+        ImageView image=(ImageView)view.findViewById(R.id.image_view);
+        TextView date=(TextView)view.findViewById(R.id.date_view);
+        TextView title=(TextView)view.findViewById(R.id.title_view);
 
 
         image.setImageResource(R.mipmap.slika);
         title.setText(post.getTitle());
-        description.setText(post.getDescription());
+        date.setText(post.getDate().toString());
 
-        return convertView;
+        return view;
     }
 }

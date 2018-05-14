@@ -40,36 +40,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-           <!-- <Button
-                android:id="@+id/btn_read_post_activity"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/read_post"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="20dp"
-                android:onClick="StartReadPostActivity"/>
-
-            <Button
-                android:id="@+id/btn_create_post_activity"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/create_post"
-                android:layout_marginStart="100dp"
-                android:onClick="StartCreatePostActivity"
-                />
-            <Button
-                android:id="@+id/btn_settings_activity"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/settings"
-                android:layout_marginStart="100dp"
-                android:onClick="OpenSettings"/>-->
+         <ScrollView
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:fillViewport="true">
             <ListView
                 android:id="@+id/list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             </ListView>
+         </ScrollView>
         </LinearLayout>
 
         <!-- The navigation drawer -->

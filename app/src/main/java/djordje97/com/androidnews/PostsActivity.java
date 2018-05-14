@@ -162,8 +162,8 @@ public class PostsActivity extends AppCompatActivity {
     }
 
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
-        mNavItems.add(new NavItem(getString(R.string.settings), "", R.drawable.ic_launcher_background));
-        mNavItems.add(new NavItem(getString(R.string.create_post), "", R.drawable.ic_launcher_background));
+        mNavItems.add(new NavItem(getString(R.string.settings), "", R.drawable.ic_settings));
+        mNavItems.add(new NavItem(getString(R.string.create_post), "", R.drawable.ic_create_post));
 
     }
 
@@ -229,5 +229,17 @@ public class PostsActivity extends AppCompatActivity {
     public void StartCreatePostActivity(View view) {
         Intent startCreatePost=new Intent(PostsActivity.this,CreatePostActivity.class);
         startActivity(startCreatePost);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        consultPreference();
     }
 }
