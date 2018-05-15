@@ -1,8 +1,10 @@
 package djordje97.com.androidnews;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +29,9 @@ import java.util.Date;
 import java.util.List;
 
 import djordje97.com.androidnews.adapters.DrawerListAdapter;
+import djordje97.com.androidnews.adapters.ViewPagerAdapter;
+import djordje97.com.androidnews.fragments.CommentsFragment;
+import djordje97.com.androidnews.fragments.ReadPostFragment;
 import djordje97.com.androidnews.model.Comment;
 import djordje97.com.androidnews.model.NavItem;
 import djordje97.com.androidnews.model.Post;
@@ -42,11 +47,27 @@ public class ReadPostActivity extends AppCompatActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
+    private TabLayout tabLayout;
+    private AppBarLayout appBarLayout;
+    private ViewPager viewPager;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_post);
+
+        tabLayout = findViewById(R.id.tablayout);
+        appBarLayout = findViewById(R.id.appbar);
+        viewPager = findViewById(R.id.viewpager);
+
+        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        pagerAdapter.AddFragment(new ReadPostFragment(),"Read post");
+        pagerAdapter.AddFragment(new CommentsFragment(),"Comments");
+
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
@@ -57,7 +78,7 @@ public class ReadPostActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.slika);
+      /*  Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.slika);
         User user = new User(1, "Petar", b, "pera", "123", null, null);
         Date date = new Date();
         Post post=new Post(1, "Avengers", "Avengers Infinity war,best movie", b, user, date, null, null, null, 12, 3);
@@ -68,10 +89,10 @@ public class ReadPostActivity extends AppCompatActivity {
         List<Tag> tags = new ArrayList<Tag>();
         tags.add(tag);
         post.setTags(tags);
+*/
 
 
-
-        TextView tv = (TextView)findViewById(R.id.title_text_view);
+     /*   TextView tv = (TextView)findViewById(R.id.title_text_view);
         tv.setText(post.getTitle());
         TextView td = (TextView)findViewById(R.id.description_text_view);
         td.setText(post.getDescription());
@@ -87,7 +108,7 @@ public class ReadPostActivity extends AppCompatActivity {
         tlike.setText(String.valueOf(post.getLike()));
         TextView tdislike = (TextView)findViewById(R.id.dislike_number);
         tdislike.setText(String.valueOf(post.getDislike()));
-
+*/
 
 
         prepareMenu(mNavItems);
@@ -127,6 +148,7 @@ public class ReadPostActivity extends AppCompatActivity {
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
         mNavItems.add(new NavItem(getString(R.string.settings), "", R.drawable.ic_settings));
         mNavItems.add(new NavItem(getString(R.string.post), "", R.drawable.ic_posts));
+        mNavItems.add(new NavItem("Log out","",R.drawable.ic_logout));
 
     }
 
@@ -141,8 +163,13 @@ public class ReadPostActivity extends AppCompatActivity {
         if(position == 0){
             Intent preference = new Intent(ReadPostActivity.this,SettingsActivity.class);
             startActivity(preference);
-        }else if(position == 1){Intent preference = new Intent(ReadPostActivity.this,PostsActivity.class);
-            startActivity(preference);
+        }else if(position == 1){Intent post = new Intent(ReadPostActivity.this,PostsActivity.class);
+            startActivity(post);
+        }else if(position == 2){
+            Intent login = new Intent(ReadPostActivity.this,LoginActivity.class);
+            sharedPreferences.edit().clear().commit();
+            startActivity(login);
+            finish();
         }else{
             Log.e("DRAWER", "Nesto van opsega!");
         }

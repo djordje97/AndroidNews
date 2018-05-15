@@ -1,9 +1,13 @@
 package djordje97.com.androidnews.service;
 
-import android.provider.ContactsContract;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import djordje97.com.androidnews.model.Post;
+import djordje97.com.androidnews.util.DateSerialization;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -33,6 +37,13 @@ public class ServiceUtils {
             .client(test())
             .build();
 
+    static Gson gson = new GsonBuilder()
+            .registerTypeAdapter(Date.class, DateSerialization.getUnixEpochDateTypeAdapter())
+            .create();
+
 
     public static UserService userService=retrofit.create(UserService.class);
+    public static  TagService tagService=retrofit.create(TagService.class);
+    public static  CommentService commentService=retrofit.create(CommentService.class);
+    public static  PostService postService=retrofit.create(PostService.class);
 }

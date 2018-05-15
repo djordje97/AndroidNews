@@ -3,6 +3,10 @@ package djordje97.com.androidnews.model;
 import android.graphics.Bitmap;
 import android.location.Location;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -10,17 +14,33 @@ import java.util.List;
  * Created by Djole on 17/04/2018.
  */
 
-public class Post {
-    private int id;
+public class Post implements Serializable {
+    @SerializedName(value = "id")
+    @Expose
+    private Integer id;
+    @SerializedName(value = "title")
+    @Expose
     private String title;
+    @SerializedName(value = "description")
+    @Expose
     private String description;
+    @SerializedName(value = "photo")
+    @Expose
     private Bitmap photo;
+    @SerializedName(value = "user")
+    @Expose
     private User author;
+    @SerializedName(value = "date")
+    @Expose
     private Date date;
     private Location location;
     private List<Tag> tags;
     private List<Comment> comments;
+    @SerializedName(value = "likes")
+    @Expose
     private int like;
+    @SerializedName(value = "dislikes")
+    @Expose
     private int dislike;
 
     public Post(int id, String title, String description, Bitmap photo, User author, Date date, Location location, List<Tag> tags, List<Comment> comments, int like, int dislike) {

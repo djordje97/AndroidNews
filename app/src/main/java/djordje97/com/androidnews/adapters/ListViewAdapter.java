@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import djordje97.com.androidnews.R;
@@ -35,10 +36,10 @@ public class ListViewAdapter extends ArrayAdapter <Post>{
         TextView date=(TextView)view.findViewById(R.id.date_view);
         TextView title=(TextView)view.findViewById(R.id.title_view);
 
-
+        String newDate = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(post.getDate());
         image.setImageResource(R.mipmap.slika);
         title.setText(post.getTitle());
-        date.setText(post.getDate().toString());
+        date.setText(newDate);
 
         return view;
     }

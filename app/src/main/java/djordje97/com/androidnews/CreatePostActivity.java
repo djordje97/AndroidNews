@@ -1,6 +1,7 @@
 package djordje97.com.androidnews;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
         mNavItems.add(new NavItem(getString(R.string.settings), "", R.drawable.ic_settings));
         mNavItems.add(new NavItem(getString(R.string.post), "", R.drawable.ic_posts));
+        mNavItems.add(new NavItem("Log out","",R.drawable.ic_logout));
 
     }
 
@@ -97,8 +100,13 @@ public class CreatePostActivity extends AppCompatActivity {
         if(position == 0){
             Intent preference = new Intent(CreatePostActivity.this,SettingsActivity.class);
             startActivity(preference);
-        }else if(position == 1){Intent preference = new Intent(CreatePostActivity.this,PostsActivity.class);
-            startActivity(preference);
+        }else if(position == 1){Intent post = new Intent(CreatePostActivity.this,PostsActivity.class);
+            startActivity(post);
+        }else if(position == 2){
+            Intent login = new Intent(CreatePostActivity.this,LoginActivity.class);
+            sharedPreferences.edit().clear().commit();
+            startActivity(login);
+            finish();
         }else{
             Log.e("DRAWER", "Nesto van opsega!");
         }

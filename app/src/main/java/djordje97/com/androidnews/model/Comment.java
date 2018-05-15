@@ -2,30 +2,53 @@ package djordje97.com.androidnews.model;
 
 import android.os.AsyncTask;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.Date;
+
 
 /**
  * Created by Djole on 17/04/2018.
  */
 
-public class Comment {
-    private int id;
+public class Comment implements Serializable {
+    @SerializedName(value = "id")
+    @Expose
+    private Integer id;
+    @SerializedName(value = "title")
+    @Expose
     private String title;
+    @SerializedName(value = "description")
+    @Expose
     private String description;
+    @SerializedName(value = "user")
+    @Expose
     private User author;
+    @SerializedName(value = "photo")
+    @Expose
     private Post post;
+    @SerializedName(value = "date")
+    @Expose
+    private Date date;
+    @SerializedName(value = "likes")
+    @Expose
     private int likes;
+    @SerializedName(value = "dislikes")
+    @Expose
     private int dislikes;
-    private AsyncTask.Status status;
 
-    public Comment(int id, String title, String description, User author, Post post, int likes, int dislikes, AsyncTask.Status status) {
+    public Comment(int id, String title, String description, User author, Post post, Date date, int likes, int dislikes) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.author = author;
         this.post = post;
+        this.date = date;
         this.likes = likes;
         this.dislikes = dislikes;
-        this.status = status;
+
     }
 
     public int getId() {
@@ -84,12 +107,12 @@ public class Comment {
         this.dislikes = dislikes;
     }
 
-    public AsyncTask.Status getStatus() {
-        return status;
+    public Date getDate() {
+        return date;
     }
 
-    public void setStatus(AsyncTask.Status status) {
-        this.status = status;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override
@@ -100,9 +123,9 @@ public class Comment {
                 ", description='" + description + '\'' +
                 ", author=" + author +
                 ", post=" + post +
+                ", date=" + date +
                 ", likes=" + likes +
                 ", dislikes=" + dislikes +
-                ", status=" + status +
                 '}';
     }
 }

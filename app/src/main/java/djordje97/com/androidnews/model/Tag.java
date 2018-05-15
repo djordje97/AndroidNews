@@ -1,14 +1,22 @@
 package djordje97.com.androidnews.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Djole on 17/04/2018.
  */
 
-public class Tag {
+public class Tag implements Serializable{
 
+    @SerializedName(value = "id")
+    @Expose
     private int id;
+    @SerializedName(value = "name")
+    @Expose
     private String name;
     private List<Post> posts;
 

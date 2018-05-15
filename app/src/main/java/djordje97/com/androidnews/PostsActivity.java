@@ -20,16 +20,25 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import djordje97.com.androidnews.adapters.DrawerListAdapter;
 import djordje97.com.androidnews.adapters.ListViewAdapter;
+import djordje97.com.androidnews.adapters.PostListAdapter;
 import djordje97.com.androidnews.model.NavItem;
 import djordje97.com.androidnews.model.Post;
 import djordje97.com.androidnews.model.User;
+import djordje97.com.androidnews.service.PostService;
+import djordje97.com.androidnews.service.ServiceUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PostsActivity extends AppCompatActivity {
 
@@ -43,10 +52,14 @@ public class PostsActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private boolean sortPostByDate;
     private boolean sortPostByPopularity;
-    ArrayList<Post> posts=new ArrayList<>();
+    List<Post> posts;
+    private Post post;
     private ListViewAdapter listViewAdapter;
     private Post post1;
     private Post post2;
+    private PostService postService;
+    private PostListAdapter postListAdapter;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +108,7 @@ public class PostsActivity extends AppCompatActivity {
             }
         };
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.slika);
+      /*  Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.slika);
         User user = new User(1, "Petar", b, "pera", "123", null, null);
         Date date = new Date(2018-1900,3-1,23,8,45);
         Date d2=new Date(2018-1900,2-1,25,9,45);
@@ -103,24 +116,44 @@ public class PostsActivity extends AppCompatActivity {
         post2=new Post(2,"Super News","Extraaa",b,user,d2,null,null,null,50,7);
 
         posts.add(post1);
-        posts.add(post2);
-        ListView listView=findViewById(R.id.list_view);
+        posts.add(post2);*/
+         listView=findViewById(R.id.list_view);
 
-        listViewAdapter=new ListViewAdapter(this,posts);
-        listView.setAdapter(listViewAdapter);
+        postService = ServiceUtils.postService;
+
+        Call call = postService.getPosts();
+
+
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                posts = response.body();
+                postListAdapter = new PostListAdapter(getApplicationContext(),posts);
+                listView.setAdapter(postListAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                post=posts.get(position);
                 Intent startReadPost=new Intent(PostsActivity.this,ReadPostActivity.class);
+                startReadPost.putExtra("Post",new Gson().toJson(post));
                 startActivity(startReadPost);
             }
         });
 
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
-        consultPreference();
+        //consultPreference();
     }
 
-    private void consultPreference(){
+  /*  private void consultPreference(){
         sortPostByDate=sharedPreferences.getBoolean(getString(R.string.prefer_sort_post_date_key),false);
         sortPostByPopularity=sharedPreferences.getBoolean(getString(R.string.sort_post_popularity_key),false);
 
@@ -130,9 +163,9 @@ public class PostsActivity extends AppCompatActivity {
         if(sortPostByPopularity == true){
             sortByPopularity();
         }
-    }
+    }*/
 
-    public void sortDate(){
+  /*  public void sortDate(){
         Collections.sort(posts, new Comparator<Post>() {
             @Override
             public int compare(Post post, Post t1) {
@@ -160,10 +193,11 @@ public class PostsActivity extends AppCompatActivity {
 
         listViewAdapter.notifyDataSetChanged();
     }
-
+*/
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
         mNavItems.add(new NavItem(getString(R.string.settings), "", R.drawable.ic_settings));
         mNavItems.add(new NavItem(getString(R.string.create_post), "", R.drawable.ic_create_post));
+        mNavItems.add(new NavItem("Log out","",R.drawable.ic_logout));
 
     }
 
@@ -178,8 +212,13 @@ public class PostsActivity extends AppCompatActivity {
         if(position == 0){
             Intent preference = new Intent(PostsActivity.this,SettingsActivity.class);
             startActivity(preference);
-        }else if(position == 1){Intent preference = new Intent(PostsActivity.this,CreatePostActivity.class);
-            startActivity(preference);
+        }else if(position == 1){Intent create = new Intent(PostsActivity.this,CreatePostActivity.class);
+            startActivity(create);
+        }else if(position == 2){
+            Intent login = new Intent(PostsActivity.this,LoginActivity.class);
+            sharedPreferences.edit().clear().commit();
+            startActivity(login);
+            finish();
         }else{
             Log.e("DRAWER", "Nesto van opsega!");
         }
@@ -240,6 +279,6 @@ public class PostsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        consultPreference();
+      //  consultPreference();
     }
 }
