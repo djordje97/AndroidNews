@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textSize="20sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/transparent_black"/>
 
             <View
                 android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/transparent_black"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/author_view"
                     android:layout_margin="10dp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/transparent_black"/>
 
             </RelativeLayout>
 
@@ -79,15 +79,15 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/image_view"
                 android:layout_margin="10dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/transparent_black"/>
 
-            <!--<TextView
+            <TextView
                android:id="@+id/tags_view"
                android:layout_below="@id/description_view"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_margin="10dp"
-               android:textColor="@color/white"/> -->
+               android:textColor="@color/transparent_black"/>
 
             <RelativeLayout
                 android:id="@+id/like_dislike_layout"
@@ -109,7 +109,7 @@
                     android:layout_toRightOf="@id/like_view"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/transparent_black"/>
 
                 <ImageButton
                     android:id="@+id/dislike_view"
@@ -127,7 +127,7 @@
                     android:layout_toRightOf="@id/dislike_view"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/transparent_black"/>
 
             </RelativeLayout>
 

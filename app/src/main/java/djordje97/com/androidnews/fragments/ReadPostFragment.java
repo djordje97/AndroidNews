@@ -3,7 +3,6 @@ package djordje97.com.androidnews.fragments;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +30,10 @@ public class ReadPostFragment extends Fragment {
     View view;
 
     private TagService tagService;
-    private TextView tags_view;
+    private TextView tag_view;
     private List<Tag> tags;
     private LinearLayout linearLayout;
+    private LinearLayout newLinearLayout;
 
     public ReadPostFragment(){
 
@@ -81,10 +81,10 @@ public class ReadPostFragment extends Fragment {
 
         linearLayout = view.findViewById(R.id.linear_layout);
 
-        //tags_view = view.findViewById(R.id.tags_view);
+       tag_view = view.findViewById(R.id.tags_view);
         //tags_view.setText(getActivity().getIntent().getStringExtra("tags"));
 
-         tagService = ServiceUtils.tagService;
+        tagService = ServiceUtils.tagService;
         System.out.print(post.getId());
         Call<List<Tag>> call = tagService.getTagsByPost(post.getId());
 
@@ -92,20 +92,11 @@ public class ReadPostFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
                 tags = response.body();
-
+                newLinearLayout = new LinearLayout(getContext());
+                newLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
                 for(Tag t:tags){
-                    TextView tag_view = new TextView(getContext());
-                    tag_view.setId(t.getId());
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
-                            (LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
-                    params.setMargins(10,10,10,10);
-                    tag_view.setTextColor(getResources().getColor(R.color.white));
-                    tag_view.setLayoutParams(params);
-                    tag_view.setText(t.getName());
-                    linearLayout.addView(tag_view);
-
-
+                    tag_view.setText("#"+t.getName());
                 }
             }
 

@@ -1,5 +1,6 @@
 package djordje97.com.androidnews;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -71,6 +72,7 @@ public class ReadPostActivity extends AppCompatActivity {
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        sharedPreferences=getSharedPreferences("MyPref",Context.MODE_PRIVATE);
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -78,37 +80,6 @@ public class ReadPostActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
-      /*  Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.slika);
-        User user = new User(1, "Petar", b, "pera", "123", null, null);
-        Date date = new Date();
-        Post post=new Post(1, "Avengers", "Avengers Infinity war,best movie", b, user, date, null, null, null, 12, 3);
-        List<Post> posts = new ArrayList<Post>();
-        posts.add(post);
-
-        Tag tag = new Tag(1, "#good", posts);
-        List<Tag> tags = new ArrayList<Tag>();
-        tags.add(tag);
-        post.setTags(tags);
-*/
-
-
-     /*   TextView tv = (TextView)findViewById(R.id.title_text_view);
-        tv.setText(post.getTitle());
-        TextView td = (TextView)findViewById(R.id.description_text_view);
-        td.setText(post.getDescription());
-        ImageView im = (ImageView) findViewById(R.id.picture);
-        im.setImageBitmap(b);
-        TextView tt = (TextView)findViewById(R.id.tags_text_view);
-        tt.setText(post.getTags().get(0).getName());
-        TextView tu = (TextView)findViewById(R.id.author_text_view);
-        tu.setText(post.getAuthor().getUsername());
-        TextView tdate = (TextView)findViewById(R.id.date_text_view);
-        tdate.setText(post.getDate().toString());
-        TextView tlike = (TextView)findViewById(R.id.like_number);
-        tlike.setText(String.valueOf(post.getLike()));
-        TextView tdislike = (TextView)findViewById(R.id.dislike_number);
-        tdislike.setText(String.valueOf(post.getDislike()));
-*/
 
 
         prepareMenu(mNavItems);
@@ -148,7 +119,7 @@ public class ReadPostActivity extends AppCompatActivity {
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
         mNavItems.add(new NavItem(getString(R.string.settings), "", R.drawable.ic_settings));
         mNavItems.add(new NavItem(getString(R.string.post), "", R.drawable.ic_posts));
-        mNavItems.add(new NavItem("Log out","",R.drawable.ic_logout));
+        mNavItems.add(new NavItem(getString(R.string.log_out),"",R.drawable.ic_logout));
 
     }
 
@@ -217,4 +188,5 @@ public class ReadPostActivity extends AppCompatActivity {
         super.onResume();
 
     }
+
 }

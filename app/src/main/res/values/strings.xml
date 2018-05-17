@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidNews</string>
+    <string name="app_name">Android News</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
@@ -36,4 +36,7 @@
     <string name="sort_comment_date_key">sort_comment_date_key</string>
     <string name="sort_comments_by_popularity">Sort comments by popularity</string>
     <string name="sort_comment_popularity_key">sort_comment_popularity_key</string>
+    <string name="log_out">Log out</string>
+    <string name="create_btn">Create</string>
+    <string name="upload_image_btn">Upload photo</string>
 </resources>

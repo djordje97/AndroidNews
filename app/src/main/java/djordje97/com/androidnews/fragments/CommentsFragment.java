@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +38,6 @@ public class CommentsFragment extends Fragment {
 
     private SharedPreferences sharedPreferences;
 
-    private boolean sortCommentsByDate;
-    private boolean sortCommentsByPopularity;
-
     public CommentsFragment(){
 
     }
@@ -71,7 +67,6 @@ public class CommentsFragment extends Fragment {
         Call<List<Comment>> call = commentService.getCommentsByPost(post.getId());
 
         call.enqueue(new Callback<List<Comment>>() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 comments = response.body();
@@ -89,7 +84,7 @@ public class CommentsFragment extends Fragment {
         setUp();
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
+
     private void setUp() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
     }

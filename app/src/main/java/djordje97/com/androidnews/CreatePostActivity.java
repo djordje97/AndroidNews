@@ -1,5 +1,6 @@
 package djordje97.com.androidnews;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.widget.DrawerLayout;
@@ -13,8 +14,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,11 @@ public class CreatePostActivity extends AppCompatActivity {
     private CharSequence mTitle;
     private ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
     private SharedPreferences sharedPreferences;
+    TextView titleEdit;
+    TextView tagsEdit;
+    TextView description;
+    Button  uploadPhoto;
+    Button createPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +64,7 @@ public class CreatePostActivity extends AppCompatActivity {
         // Populate the Navigtion Drawer with options
         mDrawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
         DrawerListAdapter adapter = new DrawerListAdapter(this, mNavItems);
-
+        sharedPreferences=getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mDrawerList.setAdapter(adapter);
@@ -80,12 +88,26 @@ public class CreatePostActivity extends AppCompatActivity {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
+
+        createPost=(Button)findViewById(R.id.create_btn);
+        titleEdit=(TextView)findViewById(R.id.title_edit);
+        tagsEdit=(TextView)findViewById(R.id.tags_edit);
+        description=(TextView)findViewById(R.id.description_edit);
+        uploadPhoto=(Button)findViewById(R.id.upload_btn);
+        uploadPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
+            }
+        });
     }
 
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
         mNavItems.add(new NavItem(getString(R.string.settings), "", R.drawable.ic_settings));
         mNavItems.add(new NavItem(getString(R.string.post), "", R.drawable.ic_posts));
-        mNavItems.add(new NavItem("Log out","",R.drawable.ic_logout));
+        mNavItems.add(new NavItem(getString(R.string.log_out),"",R.drawable.ic_logout));
 
     }
 
@@ -117,6 +139,20 @@ public class CreatePostActivity extends AppCompatActivity {
             setTitle(mNavItems.get(position).getmTitle());
         }
         mDrawerLayout.closeDrawer(mDrawerPane);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        createPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+
     }
 
     @Override

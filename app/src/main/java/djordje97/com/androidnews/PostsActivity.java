@@ -1,5 +1,6 @@
 package djordje97.com.androidnews;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -149,7 +150,7 @@ public class PostsActivity extends AppCompatActivity {
             }
         });
 
-        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences=getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         //consultPreference();
     }
 
@@ -197,7 +198,7 @@ public class PostsActivity extends AppCompatActivity {
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
         mNavItems.add(new NavItem(getString(R.string.settings), "", R.drawable.ic_settings));
         mNavItems.add(new NavItem(getString(R.string.create_post), "", R.drawable.ic_create_post));
-        mNavItems.add(new NavItem("Log out","",R.drawable.ic_logout));
+        mNavItems.add(new NavItem(getString(R.string.log_out),"",R.drawable.ic_logout));
 
     }
 
