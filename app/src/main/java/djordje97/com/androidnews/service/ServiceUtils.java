@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceUtils {
 
-     static final String BASE_URL="http://192.168.72.132:8080/api/";
+     static final String BASE_URL="http://192.168.72.64:8080/api/";
 
 
     public static OkHttpClient test(){
@@ -30,16 +30,20 @@ public class ServiceUtils {
 
         return client;
     }
+    static Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+            .create();
 
     public static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(test())
             .build();
 
-    static Gson gson = new GsonBuilder()
-            .registerTypeAdapter(Date.class, DateSerialization.getUnixEpochDateTypeAdapter())
-            .create();
+//    static Gson gson = new GsonBuilder()
+//            .registerTypeAdapter(Date.class, DateSerialization.getUnixEpochDateTypeAdapter())
+//            .create();
+
 
 
     public static UserService userService=retrofit.create(UserService.class);

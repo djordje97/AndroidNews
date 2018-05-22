@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.time.Duration;
 
@@ -59,7 +62,10 @@ public class LoginActivity extends AppCompatActivity {
                 u=response.body();
                 if(u.getUsername().equals(username) && u.getPassword().equals(password)){
                     SharedPreferences.Editor editor=sharedPreferences.edit();
-                    editor.putString("loggedUserKey",u.getUsername());
+                    String jsonUser=new Gson().toJson(u);
+                    Log.i("",jsonUser);
+                    editor.putString("loggedUser",jsonUser);
+
                     editor.commit();
                     Intent intent=new Intent(LoginActivity.this,PostsActivity.class);
                     startActivity(intent);

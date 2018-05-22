@@ -109,15 +109,7 @@ public class PostsActivity extends AppCompatActivity {
             }
         };
 
-      /*  Bitmap b = BitmapFactory.decodeResource(getResources(),R.mipmap.slika);
-        User user = new User(1, "Petar", b, "pera", "123", null, null);
-        Date date = new Date(2018-1900,3-1,23,8,45);
-        Date d2=new Date(2018-1900,2-1,25,9,45);
-        post1=new Post(1, "Avengers", "Avengers Infinity war,best movie", b, user, date, null, null, null, 12, 3);
-        post2=new Post(2,"Super News","Extraaa",b,user,d2,null,null,null,50,7);
 
-        posts.add(post1);
-        posts.add(post2);*/
          listView=findViewById(R.id.list_view);
 
         postService = ServiceUtils.postService;

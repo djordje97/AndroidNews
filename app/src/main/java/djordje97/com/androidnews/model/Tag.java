@@ -26,7 +26,7 @@ public class Tag implements Serializable{
         this.posts = posts;
     }
 
-
+    public Tag(){}
 
     public int getId() {
         return id;

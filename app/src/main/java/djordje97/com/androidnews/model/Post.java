@@ -39,9 +39,17 @@ public class Post implements Serializable {
     @SerializedName(value = "likes")
     @Expose
     private int like;
-    @SerializedName(value = "dislikes")
+    @SerializedName(value = "dislike")
     @Expose
     private int dislike;
+
+
+    public Post() {
+        }
+
+    public Post(Post post){
+        this(post.getId(),post.getTitle(),post.getDescription(),post.getPhoto(),post.getAuthor(),post.getDate(),null,null,null,post.getLike(),post.getDislike());
+    }
 
     public Post(int id, String title, String description, Bitmap photo, User author, Date date, Location location, List<Tag> tags, List<Comment> comments, int like, int dislike) {
         this.id = id;

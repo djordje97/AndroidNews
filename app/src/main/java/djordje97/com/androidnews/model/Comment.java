@@ -26,7 +26,7 @@ public class Comment implements Serializable {
     @SerializedName(value = "user")
     @Expose
     private User author;
-    @SerializedName(value = "photo")
+    @SerializedName(value = "post")
     @Expose
     private Post post;
     @SerializedName(value = "date")
@@ -50,6 +50,7 @@ public class Comment implements Serializable {
         this.dislikes = dislikes;
 
     }
+    public Comment(){}
 
     public int getId() {
         return id;

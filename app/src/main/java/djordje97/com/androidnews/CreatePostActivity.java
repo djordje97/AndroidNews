@@ -15,14 +15,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import djordje97.com.androidnews.adapters.DrawerListAdapter;
 import djordje97.com.androidnews.model.NavItem;
+import djordje97.com.androidnews.model.Post;
+import djordje97.com.androidnews.model.Tag;
+import djordje97.com.androidnews.model.User;
+import djordje97.com.androidnews.service.PostService;
+import djordje97.com.androidnews.service.ServiceUtils;
+import djordje97.com.androidnews.service.TagService;
+import djordje97.com.androidnews.service.UserService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreatePostActivity extends AppCompatActivity {
 
@@ -40,6 +58,11 @@ public class CreatePostActivity extends AppCompatActivity {
     TextView description;
     Button  uploadPhoto;
     Button createPost;
+    private UserService userService;
+    private  User inBody;
+    private PostService postService;
+    private Post responsePost;
+    private List<Tag> allTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,13 +170,77 @@ public class CreatePostActivity extends AppCompatActivity {
         createPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText title=(EditText) findViewById(R.id.title_edit);
+                EditText description=(EditText) findViewById(R.id.description_edit);
+                EditText tags=(EditText) findViewById(R.id.tags_edit);
+
+                String titleText=title.getText().toString();
+                String descriptionText=description.getText().toString();
+                Post post=new Post();
+                post.setTitle(titleText);
+                post.setDescription(descriptionText);
+                post.setLike(0);
+                post.setDislike(0);
+                Date date = Calendar.getInstance().getTime();
+                post.setDate(date);
+                String loggedUser=sharedPreferences.getString("loggedUser","");
+                User logged= new Gson().fromJson(loggedUser,User.class);
+                post.setAuthor(logged);
+
+                postService=ServiceUtils.postService;
+                Call<Post> call=postService.createPost(post);
+                call.enqueue(new Callback<Post>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<Post> call, Response<Post> response) {
+                        responsePost=response.body();
+                        Toast.makeText(CreatePostActivity.this,"Post Created!",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<Post> call, Throwable t) {
+
+                    }
+                });
+
+
 
             }
         });
 
-
+        getAllTags();
 
     }
+//    public  void addTags(){
+//        String tagsString = tagsEdit.getText().toString().trim();
+//        String[] separated = tagsString.split("#");
+//        List<String> tagFilter = Arrays.asList(separated);
+//        List<Tag> tagsForAdd=new ArrayList<>();
+//
+//        for(Tag t:allTags){
+//
+//        }
+//
+//
+//
+//    }
+
+    public void getAllTags(){
+
+        TagService tagService=ServiceUtils.tagService;
+        Call<List<Tag>>call=tagService.getTags();
+        call.enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                allTags=response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     @Override
     public void setTitle(CharSequence title) {

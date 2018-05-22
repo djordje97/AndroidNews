@@ -25,6 +25,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +40,11 @@ import djordje97.com.androidnews.model.NavItem;
 import djordje97.com.androidnews.model.Post;
 import djordje97.com.androidnews.model.Tag;
 import djordje97.com.androidnews.model.User;
+import djordje97.com.androidnews.service.PostService;
+import djordje97.com.androidnews.service.ServiceUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ReadPostActivity extends AppCompatActivity {
 
@@ -52,6 +59,8 @@ public class ReadPostActivity extends AppCompatActivity {
     private AppBarLayout appBarLayout;
     private ViewPager viewPager;
     private SharedPreferences sharedPreferences;
+    private Post post;
+    private User logged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +90,14 @@ public class ReadPostActivity extends AppCompatActivity {
         }
 
 
-
+        String jsonMyObject = null;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            jsonMyObject = extras.getString("Post");
+        }
+        post = new Gson().fromJson(jsonMyObject, Post.class);
+        String loggedUser=sharedPreferences.getString("loggedUser","");
+        logged= new Gson().fromJson(loggedUser,User.class);
         prepareMenu(mNavItems);
 
         mTitle = mDrawerTitle = getTitle();
@@ -114,6 +130,9 @@ public class ReadPostActivity extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
         };
+
+            invalidateOptionsMenu();
+
     }
 
     private void prepareMenu(ArrayList<NavItem> mNavItems ){
@@ -162,6 +181,10 @@ public class ReadPostActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.main_menu,menu);
+        if(!post.getAuthor().getUsername().equals(logged.getUsername())){
+            MenuItem delete=menu.findItem(R.id.action_delete_post);
+            delete.setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -176,16 +199,36 @@ public class ReadPostActivity extends AppCompatActivity {
             Toast toast=Toast.makeText(getApplicationContext(),"Add post",Toast.LENGTH_SHORT);
             toast.show();
         }else if(id == R.id.action_delete_post ){
-            Toast toast=Toast.makeText(getApplicationContext(),"Delete post",Toast.LENGTH_SHORT);
-            toast.show();
+            delete();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void delete(){
+        PostService postService= ServiceUtils.postService;
+        Call<Void>call=postService.deletePost(post.getId());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Toast.makeText(ReadPostActivity.this,"Post Deleted",Toast.LENGTH_SHORT).show();
+                Intent postsA=new Intent(ReadPostActivity.this,PostsActivity.class);
+                startActivity(postsA);
+                finish();
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
+
+
 
     }
 
