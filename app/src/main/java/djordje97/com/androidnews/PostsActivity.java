@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -61,6 +62,7 @@ public class PostsActivity extends AppCompatActivity {
     private PostService postService;
     private PostListAdapter postListAdapter;
     private ListView listView;
+    private  User logge;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,7 +145,11 @@ public class PostsActivity extends AppCompatActivity {
         });
 
         sharedPreferences=getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        String userJson=sharedPreferences.getString("loggedUser","");
+        logge=new Gson().fromJson(userJson,User.class);
         //consultPreference();
+        TextView userName=(TextView)findViewById(R.id.userName);
+        userName.setText(logge.getUsername());
     }
 
   /*  private void consultPreference(){
@@ -243,25 +249,15 @@ public class PostsActivity extends AppCompatActivity {
         {
             Intent openSettings=new Intent(PostsActivity.this,SettingsActivity.class);
             startActivity(openSettings);
+        }else if(id == R.id.action_add_post){
+            Intent openSettings=new Intent(PostsActivity.this,CreatePostActivity.class);
+            startActivity(openSettings);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void StartReadPostActivity(View view) {
-        Intent startReadPost=new Intent(PostsActivity.this,ReadPostActivity.class);
-        startActivity(startReadPost);
-    }
 
-    public void OpenSettings(View view) {
-        Intent openSettings=new Intent(PostsActivity.this,SettingsActivity.class);
-        startActivity(openSettings);
-    }
-
-    public void StartCreatePostActivity(View view) {
-        Intent startCreatePost=new Intent(PostsActivity.this,CreatePostActivity.class);
-        startActivity(startCreatePost);
-    }
 
     @Override
     protected void onRestart() {

@@ -1,5 +1,7 @@
 package djordje97.com.androidnews.service;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -8,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import djordje97.com.androidnews.model.Post;
 import djordje97.com.androidnews.util.DateSerialization;
+import djordje97.com.androidnews.util.ImageSerialization;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -15,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceUtils {
 
-     static final String BASE_URL="http://192.168.72.64:8080/api/";
+     static final String BASE_URL="http://192.168.72.244:8080/api/";
 
 
     public static OkHttpClient test(){
@@ -23,14 +26,15 @@ public class ServiceUtils {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .readTimeout(120, TimeUnit.SECONDS)
-                .writeTimeout(120, TimeUnit.SECONDS)
+                .connectTimeout(200, TimeUnit.SECONDS)
+                .readTimeout(200, TimeUnit.SECONDS)
+                .writeTimeout(200, TimeUnit.SECONDS)
                 .addInterceptor(interceptor).build();
 
         return client;
     }
     static Gson gson = new GsonBuilder()
+            .registerTypeAdapter(Bitmap.class, ImageSerialization.getBitmapTypeAdapter())
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
             .create();
 

@@ -100,9 +100,7 @@ public class CommentsFragment extends Fragment {
                 add();
                 title_comment_ET.setText("");
                 description_comment_ET.setText("");
-                FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
-                t.setAllowOptimization(false);
-                t.detach(CommentsFragment.this).attach(CommentsFragment.this).commitAllowingStateLoss();
+
             }
         });
 
@@ -129,6 +127,9 @@ public class CommentsFragment extends Fragment {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 Toast.makeText(getContext(),"Added comment",Toast.LENGTH_SHORT).show();
+                FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
+                t.setAllowOptimization(false);
+                t.detach(CommentsFragment.this).attach(CommentsFragment.this).commitAllowingStateLoss();
             }
 
             @Override

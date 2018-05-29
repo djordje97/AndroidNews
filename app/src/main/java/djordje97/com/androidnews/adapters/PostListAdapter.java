@@ -1,6 +1,8 @@
 package djordje97.com.androidnews.adapters;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,14 +10,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import djordje97.com.androidnews.R;
 import djordje97.com.androidnews.model.Post;
 
 public class PostListAdapter extends ArrayAdapter<Post> {
 
+    private TextView location_view;
 
     public PostListAdapter(Context context, List<Post> posts){
         super(context,0,posts);
@@ -26,6 +31,7 @@ public class PostListAdapter extends ArrayAdapter<Post> {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup){
+
         final Post post = getItem(position);
 
         if(view == null){
@@ -47,6 +53,9 @@ public class PostListAdapter extends ArrayAdapter<Post> {
         image_view.setImageBitmap(post.getPhoto());
 
 
+
         return view;
     }
+
+
 }

@@ -79,6 +79,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment>{
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Toast.makeText(getContext(),"Comment is deleted",Toast.LENGTH_SHORT).show();
+                CommentListAdapter.this.notifyDataSetChanged();
             }
 
             @Override
@@ -86,6 +87,6 @@ public class CommentListAdapter extends ArrayAdapter<Comment>{
 
             }
         });
-        this.notifyDataSetChanged();
+
     }
 }

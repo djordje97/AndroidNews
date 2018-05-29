@@ -29,6 +29,8 @@
                 android:gravity="bottom"
                 android:background="@color/transparent_black"/>
 
+
+
             <TextView
                 android:id="@+id/title_view"
                 android:layout_width="match_parent"

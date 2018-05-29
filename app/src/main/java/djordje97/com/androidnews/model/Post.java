@@ -33,7 +33,12 @@ public class Post implements Serializable {
     @SerializedName(value = "date")
     @Expose
     private Date date;
-    private Location location;
+    @SerializedName(value = "longitude")
+    @Expose
+    private double longitude;
+    @SerializedName(value = "latitude")
+    @Expose
+    private double latitude;
     private List<Tag> tags;
     private List<Comment> comments;
     @SerializedName(value = "likes")
@@ -48,17 +53,18 @@ public class Post implements Serializable {
         }
 
     public Post(Post post){
-        this(post.getId(),post.getTitle(),post.getDescription(),post.getPhoto(),post.getAuthor(),post.getDate(),null,null,null,post.getLike(),post.getDislike());
+        this(post.getId(),post.getTitle(),post.getDescription(),post.getPhoto(),post.getAuthor(),post.getDate(),post.getLongitude(),post.getLatitude(),null,null,post.getLike(),post.getDislike());
     }
 
-    public Post(int id, String title, String description, Bitmap photo, User author, Date date, Location location, List<Tag> tags, List<Comment> comments, int like, int dislike) {
+    public Post(Integer id, String title, String description, Bitmap photo, User author, Date date, double longitude, double latitude, List<Tag> tags, List<Comment> comments, int like, int dislike) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.photo = photo;
         this.author = author;
         this.date = date;
-        this.location = location;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.tags = tags;
         this.comments = comments;
         this.like = like;
@@ -113,12 +119,24 @@ public class Post implements Serializable {
         this.date = date;
     }
 
-    public Location getLocation() {
-        return location;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     public List<Tag> getTags() {
@@ -162,7 +180,6 @@ public class Post implements Serializable {
                 ", photo=" + photo +
                 ", author=" + author +
                 ", date=" + date +
-                ", location=" + location +
                 ", tags=" + tags +
                 ", comments=" + comments +
                 ", like=" + like +

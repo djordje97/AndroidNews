@@ -1,9 +1,12 @@
 package djordje97.com.androidnews.fragments;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +16,10 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import djordje97.com.androidnews.R;
 import djordje97.com.androidnews.model.Post;
@@ -33,6 +38,8 @@ public class ReadPostFragment extends Fragment {
     private TextView tag_view;
     private List<Tag> tags;
     private LinearLayout linearLayout;
+    private TextView place;
+    private Post post;
     private LinearLayout newLinearLayout;
 
     public ReadPostFragment(){
@@ -58,7 +65,7 @@ public class ReadPostFragment extends Fragment {
         if (extras != null) {
             jsonMyObject = extras.getString("Post");
         }
-        Post post = new Gson().fromJson(jsonMyObject, Post.class);
+         post = new Gson().fromJson(jsonMyObject, Post.class);
 
         TextView title_view = view.findViewById(R.id.title_view);
         title_view.setText(post.getTitle());
@@ -69,6 +76,10 @@ public class ReadPostFragment extends Fragment {
         TextView date_view = view.findViewById(R.id.date_view);
         String newDate = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(post.getDate());
         date_view.setText(newDate);
+
+         place = view.findViewById(R.id.place);
+
+
 
         TextView description_view = view.findViewById(R.id.description_view);
         description_view.setText(post.getDescription());
@@ -108,8 +119,31 @@ public class ReadPostFragment extends Fragment {
 
 
         ImageView image_view = view.findViewById(R.id.image_view);
+
+
     }
 
+    public void getAddress(){
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(getContext(), Locale.getDefault());
+
+        double lon = post.getLongitude();
+        double lat = post.getLatitude();
+        try {
+            addresses = geocoder.getFromLocation(lat, lon, 1);
+            String city = addresses.get(0).getLocality();
+            String country = addresses.get(0).getCountryName();
+            place.setText(city + "," + country);
+            Log.i("gg",city);
+
+            System.out.println(city);
+            System.out.println(country);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 }

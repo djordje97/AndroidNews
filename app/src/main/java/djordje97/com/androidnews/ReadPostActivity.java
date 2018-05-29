@@ -131,6 +131,8 @@ public class ReadPostActivity extends AppCompatActivity {
             }
         };
 
+        TextView userName=(TextView)findViewById(R.id.userName);
+        userName.setText(logged.getUsername());
             invalidateOptionsMenu();
 
     }
@@ -180,7 +182,7 @@ public class ReadPostActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.main_menu,menu);
+        inflater.inflate(R.menu.read_post,menu);
         if(!post.getAuthor().getUsername().equals(logged.getUsername())){
             MenuItem delete=menu.findItem(R.id.action_delete_post);
             delete.setVisible(false);
@@ -196,8 +198,9 @@ public class ReadPostActivity extends AppCompatActivity {
             Intent openSettings=new Intent(ReadPostActivity.this,SettingsActivity.class);
             startActivity(openSettings);
         }else if(id == R.id.action_add_post ){
-            Toast toast=Toast.makeText(getApplicationContext(),"Add post",Toast.LENGTH_SHORT);
-            toast.show();
+                Intent openSettings=new Intent(ReadPostActivity.this,CreatePostActivity.class);
+                startActivity(openSettings);
+
         }else if(id == R.id.action_delete_post ){
             delete();
         }
